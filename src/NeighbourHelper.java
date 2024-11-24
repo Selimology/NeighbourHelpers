@@ -1,59 +1,94 @@
 public class NeighbourHelper implements iNeighbourHelper {
-    private int jobCount;
-    private int userCount;
-    private Job[] jobs;
-    private User[] users;
+    private Vector<Job> jobs;
+    private Vector<User> users;
+    private static final int STARTING_CAPACITY = 10;
 
-    public NeighbourHelper(){
-        jobCount = 0;
-        userCount = 0;
-        jobs = new Job[10];
-        users = new User[10];
+    public NeighbourHelper() {
+        jobs = new Vector<Job>(STARTING_CAPACITY);
+        users = new Vector<User>(STARTING_CAPACITY);
     }
 
-    private boolean isValidInput (String str) {
-        return str != null ;
+    private boolean isValidInput(String str) {
+        return str != null;
     }
 
     @Override
     public int addUser(String name, String email, String street) {
-        if(!isValidInput(name) || !isValidInput(email) || !isValidInput(street)){
+        if (!isValidInput(name) || !isValidInput(email) || !isValidInput(street)) {
             System.out.println("Wrong");
         }
-        int userId = userCount + 1;
-        users[userCount] = new User(userId, name, email, street);
-        userCount++;
+        int userId = users.getCurrentSize() + 1;
+        User user = new User(userId, name, email, street);
+        users.addItem(user);
         return userId;
     }
 
     @Override
-    public int addJob(String title, String description, String category, boolean isPaid, float price){
-        if(!isValidInput(title) || !isValidInput(description) || !isValidInput(category)){
+    public int addJob(String category, String description, String title, boolean isPaid, float price) {
+        if (!isValidInput(title) || !isValidInput(description) || !isValidInput(category)) {
             System.out.println("Wrong");
         }
-        int jobId = jobCount + 1;
-        jobs[jobId] = new Job(jobId, title, description, category, isPaid, price);
-        jobCount++;
+
+        int jobId = jobs.getCurrentSize() + 1;
+        Job job;
+
+        if (isPaid) {
+            job = new PaidJob(jobId, category, description, title, price);
+        } else {
+            job = new UnpaidJob(jobId, category, description, title);
+        }
+
+        jobs.addItem(job);
         return jobId;
     }
 
+
     @Override
-    public void printAllUsers(){
-        for (int i = 0 ; i < userCount ; i++){
-            System.out.println(users[i]);
+    public void printAllUsers() {
+        if (users.getCurrentSize() == 0) {
+            System.out.println("No users");
+            return;
+        }
+        for (int i = 0; i < users.getCurrentSize(); i++) {
+            System.out.println(users.getItem(i));
         }
     }
 
     @Override
-    public void printAllJobs(){
-        for (int i = 0 ; i < jobCount ; i++){
-            System.out.println(jobs[i]);
+    public void printAllJobs() {
+        if (jobs.getCurrentSize() == 0) {
+            System.out.println("No jobs");
+            return;
+        }
+        for (int i = 0; i < jobs.getCurrentSize(); i++) {
+            System.out.println(jobs.getItem(i));
         }
     }
 
+    @Override
+    public User findUser(int userID) {
 
+        for (int i = 0; i < users.getCurrentSize(); i++) {
 
+            User user = users.getItem(i);
+            if (user.getId() == userID) {
+                return user;
+            }
+        }
+        System.out.println("User not found.");
+        return null;
+    }
 
-
+    @Override
+    public Job findJob(int jobID) {
+        for (int i = 0; i < jobs.getCurrentSize(); i++) {
+            Job job = jobs.getItem(i);
+            if (job.getId() == jobID) {
+                return job;
+            }
+        }
+        System.out.println("Job not found.");
+        return null;
+    }
 }
 

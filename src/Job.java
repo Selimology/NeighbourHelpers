@@ -1,25 +1,25 @@
-public class Job {
+public abstract class Job {
     private int id;
-    private String title;
-    private String description;
     private String category;
-    private boolean isPaid;
-    private float price;
+    private String description;
+    private String title;
 
-    public Job(int id, String title, String description, String category, boolean isPaid, float price) {
+    public Job(int id, String category, String description, String title) {
         this.id = id;
-        this.title = title;
-        this.description = description;
         this.category = category;
-        this.isPaid = isPaid;
-        this.price = price;
+        this.description = description;
+        this.title = title;
     }
+
+    public int getId() {
+        return this.id;
+    }
+
+    // I am adding this method to seperate paid and unpaid jobs.
+    public abstract boolean isPaid();
 
     @Override
     public String toString() {
-        if (isPaid) {
-            return id + ", " + title + ", " + description + ", " + category + ", " + price;
-        }
-        return id + ", " + title + ", " + description + ", " + category;
+        return this.id + ", " + this.title + ", " + this.description + ", " + this.category;
     }
 }

@@ -1,14 +1,29 @@
 public class Main {
     public static void main(String[] args) {
+        NeighbourHelper neighbourHelper = new NeighbourHelper();
 
-        User firstUser = new User(1, "Kamil Ertekin", "kamil.ertekin@vub.be", "etterbek");
+        //Add users
+        int firstUser = neighbourHelper.addUser("Kamil Ertekin", "kamil.ertekin@vub.be", "Etterbek");
+        int secondUser = neighbourHelper.addUser("James Bond", "james.bond@vub.be", "Not Etterbek");
 
-        System.out.println(firstUser.toString());
+        //Add jobs
+        int firstJob = neighbourHelper.addJob("Takeaway Work", "Drive around and drop food of", "FastFood Work", true, 14.0f);
+        int job2 = neighbourHelper.addJob("Programming Tutoring", "Help with programming in data structures", "Education", false, 0.0f);
 
-        Job firstPaidJob = new Job(1, "Waiter", "Need experienced waiter", "garden work", true, 13.5f);
-        Job firstUnpaidJob = new Job (2, "Student Assistant", "Need masters diploma to teach students", "education", false,0);
+        neighbourHelper.printAllUsers();
 
-        System.out.println(firstPaidJob.toString());
-        System.out.println(firstUnpaidJob.toString());
+        neighbourHelper.printAllJobs();
+
+        //Find the first user
+        User userFound = neighbourHelper.findUser(1);
+        if (userFound != null) {
+            System.out.println(" The user exists and here are the information:" + userFound);
+        }
+
+        //Find the first job
+        Job jobFound = neighbourHelper.findJob(1);
+        if (jobFound != null) {
+            System.out.println(" The job exists and here are the information:" + jobFound);
+        }
     }
 }

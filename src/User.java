@@ -11,6 +11,10 @@ public class User {
         this.street = street;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return id + ", " + name + ", " + email + ", " + street;
